@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
         return user;
     }
     public User findUserById(String id) {
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = userRepository.findById( new Integer(id));
         return userOptional.get();
     }
 

@@ -13,9 +13,11 @@ import javax.persistence.*;
 @Table(name = "t_user")
 public class User  {
    @Id
-   String id;
+   @GeneratedValue()
+   Integer id;
    String name;
-
+   @Column(name = "nick_name")
+   String nickName;
    @Column(name = "pass_word")
    String passWord;
 }

@@ -1,6 +1,7 @@
 package com.example.jwtexample.controller;
 
 import com.example.jwtexample.UserLoginToken;
+import com.example.jwtexample.dto.UserDTO;
 import com.example.jwtexample.entity.User;
 import com.example.jwtexample.service.TokenService;
 import com.example.jwtexample.service.UserService;
@@ -39,8 +40,13 @@ public class loginController {
                 return jsonObject;
             }else {
                 String token = tokenService.getToken(userForBase);
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(userForBase.getId());
+                userDTO.setName(userForBase.getName());
+                userDTO.setNickName(userForBase.getNickName());
+
                 jsonObject.put("token", token);
-                jsonObject.put("user", userForBase);
+                jsonObject.put("user", userDTO);
                 return jsonObject;
             }
         }
@@ -48,7 +54,10 @@ public class loginController {
     @PostMapping("/saveUser")
     public  @ResponseBody User SaveUser(@RequestBody User user){
         MyPasswordEncoder passWordencode = new MyPasswordEncoder();
-        user.setId(getUUID());
+//        user.setId(getUUID());
+        if(user.getPassWord() == null)
+            return  null;
+
         user.setPassWord( passWordencode.encode(user.getPassWord()+user.getName()) );
         return  userService.SaveUser(user);
     }
